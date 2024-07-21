@@ -63,8 +63,6 @@ const Page = () => {
         } finally {
           setIsCheckingUsername(false);
         }
-
-
       }
     }
     checkUsernameUnique();
