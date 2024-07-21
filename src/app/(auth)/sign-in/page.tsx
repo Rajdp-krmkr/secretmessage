@@ -129,7 +129,7 @@ const Page = () => {
           </Form>
           <div className="text-center mt-4">
             <p className=" flex gap-2 justify-center items-center">
-              <span>Don't have an account?</span>
+              <span>Don&apos;t have an account?</span>
               <Link href="/sign-up" className="text-blue-600 hover:text-blue-800" >
                 Sign up
               </Link>

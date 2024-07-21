@@ -29,7 +29,7 @@ import { Button } from "@/components/ui/button";
 import UserModel from "@/model/User.model";
 
 
-const verifyUsername = () => {
+const VerifyUsername = () => {
     const router = useRouter();
     const params = useParams<{ username: string }>();
     console.log(params)
@@ -119,4 +119,4 @@ const verifyUsername = () => {
     )
 }
 
-export default verifyUsername
+export default VerifyUsername
