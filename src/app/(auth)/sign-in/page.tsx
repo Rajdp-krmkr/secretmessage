@@ -86,7 +86,7 @@ const Page = () => {
                   <FormItem>
                     <FormLabel>Email/Username</FormLabel>
                     <FormControl>
-                      <Input type="email" placeholder="Email/Username" {...field}
+                      <Input placeholder="Email/Username" {...field}
                       // onChange={e => {
                       //   field.onChange(e);
                       //   setUsername(e.target.value)
