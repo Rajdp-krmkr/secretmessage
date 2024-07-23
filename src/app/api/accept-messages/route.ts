@@ -55,60 +55,46 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+  // Connect to the database
   await dbConnect;
-  const session = await getServerSession(AuthOptions);
-  const _user: User = session?.user as User;
 
-  if (!session || !_user) {
+  // Get the user session
+  const session = await getServerSession(AuthOptions);
+  const user = session?.user;
+
+  // Check if the user is authenticated
+  if (!session || !user) {
     return Response.json(
       { success: false, message: "Not authenticated" },
       { status: 401 }
     );
   }
 
-  const userId = new mongoose.Types.ObjectId(_user._id);
-  const user = await UserModel.aggregate([
-    // returns an array of users
-    {
-      $match: { _id: userId },
-    },
-    { $unwind: "$messages" },
-    { $sort: { "messages.createdAt": -1 } },
-    { $group: { _id: "$_id", messages: { $push: "$messages" } } },
-  ]);
+  try {
+    // Retrieve the user from the database using the ID
+    const foundUser = await UserModel.findById(user._id);
 
-  if (!user || user.length === 0) {
+    if (!foundUser) {
+      // User not found
+      return Response.json(
+        { success: false, message: "User not found" },
+        { status: 404 }
+      );
+    }
+
+    // Return the user's message acceptance status
     return Response.json(
-      { success: false, message: "User not found" },
-      { status: 404 }
+      {
+        success: true,
+        isAcceptingMessages: foundUser.isAcceptingMessages,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error retrieving message acceptance status:", error);
+    return Response.json(
+      { success: false, message: "Error retrieving message acceptance status" },
+      { status: 500 }
     );
   }
-  return Response.json(
-    { success: true, messages: user[0].messages },
-    { status: 200 }
-  );
 }
-// const foundUser = await UserModel.findById(userId);
-
-// try {
-//   if (!foundUser) {
-//     return Response.json(
-//       { success: false, message: "User not found" },
-//       { status: 404 }
-//     );
-//   }
-//   return Response.json(
-//     { success: true, isAcceptingMessages: foundUser.isAcceptingMessages },
-//     { status: 200 }
-//   );
-// } catch (error) {
-//   console.log("failed to get user status to accept messages", error);
-//   return Response.json(
-//     {
-//       success: false,
-//       message: "failed to get user status to accept messages",
-//     },
-//     { status: 500 }
-//   );
-// }
-// }
