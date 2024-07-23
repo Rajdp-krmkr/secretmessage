@@ -1,3 +1,4 @@
+'use client'
 import { MessageCard } from '@/components/MessageCard';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
