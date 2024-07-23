@@ -16,7 +16,7 @@ import React, { use, useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 
-const page = () => {
+const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
@@ -181,4 +181,4 @@ const page = () => {
 
 }
 
-export default page
+export default Dashboard
